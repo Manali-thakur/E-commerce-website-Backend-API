@@ -1,0 +1,23 @@
+{
+  "name": "e-commerce-website-backend-api",
+  "version": "1.0.0",
+  "description": "Simple e-commerce website backend where we apply all the API's that are mandatory to run the site smoothly",
+  "homepage": "https://github.com/Manali-thakur/E-commerce-website-Backend-API#readme",
+  "bugs": {
+    "url": "https://github.com/Manali-thakur/E-commerce-website-Backend-API/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Manali-thakur/E-commerce-website-Backend-API.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "test": "node server.js"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
