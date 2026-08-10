@@ -1,0 +1,12 @@
+product =
+    id,
+    title,
+    description,
+    category,
+    price,
+    rating,
+    stock,
+    image,
+    returnPolicy,
+    shippingInformation,
+    availabilityStatus
