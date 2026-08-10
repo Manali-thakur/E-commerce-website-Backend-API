@@ -10,6 +10,8 @@ router.get("/", productController.getAllProducts);
 
 router.post("/", productController.addProduct);
 
-router.get('/:id', productController.getOneProduct);
+router.get("/filter", productController.filterProducts);
+
+router.get("/:id", productController.getOneProduct);
 
 export default router;

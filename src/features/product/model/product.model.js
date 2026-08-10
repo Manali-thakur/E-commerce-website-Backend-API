@@ -42,9 +42,19 @@ export default class ProductModel {
     return product;
   }
 
-  static filter(minPrice, maxPrice, category){
+  static filter(minPrice, maxPrice, category) {
+    const min = minPrice ? Number(minPrice) : null;
+    const max = maxPrice ? Number(maxPrice) : null;
+
     const result = products.filter((product) => {
-      return ((!minPrice || product.minPrice == minPrice) && (!maxPrice || product.maxPrice) && (!category || products.category == category));
-    })
+      const matchesMin = !min || product.price >= min;
+      const matchesMax = !max || product.price <= max;
+      const matchesCategory =
+        !category || product.category.toLowerCase() === category.toLowerCase();
+
+      return matchesMin && matchesMax && matchesCategory;
+    });
+
+    return result;
   }
 }
