@@ -10,3 +10,10 @@ product =
     returnPolicy,
     shippingInformation,
     availabilityStatus
+
+
+
+    
+usercontroller two more api=
+usersignup- username, email,password, typeofusers(customer, seller)
+usersigin- email password
