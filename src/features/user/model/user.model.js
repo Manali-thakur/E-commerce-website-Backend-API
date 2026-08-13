@@ -18,8 +18,15 @@ export class UserModel {
 
   static signIn(email, password) {
     const login = users.find((user) => {
-      return (user.email.trim().toLowerCase() == email && user.password.trim() == password);
+      return (
+        user.email.trim().toLowerCase() == email &&
+        user.password.trim() == password
+      );
     });
     return login;
+  }
+
+  static getAllUsers() {
+    return users;
   }
 }

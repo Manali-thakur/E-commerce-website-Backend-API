@@ -17,3 +17,9 @@ product =
 usercontroller two more api=
 usersignup- username, email,password, typeofusers(customer, seller)
 usersigin- email password
+
+JWT
+package to create the web token =  npm i jsonwebtoken
+npm jsonwebtoken
+
+1.import JWT
