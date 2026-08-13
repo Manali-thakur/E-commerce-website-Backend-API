@@ -23,3 +23,4 @@ package to create the web token =  npm i jsonwebtoken
 npm jsonwebtoken
 
 1.import JWT
+2.create token- generate the key(onlinekeygenerator), add expires in value-imp in the options
