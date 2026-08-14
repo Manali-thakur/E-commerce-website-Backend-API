@@ -1,6 +1,7 @@
 import express from "express";
 import bodyParser from "body-parser";
 import basicAuthorizer from "./src/middleware/basicAuth.middleware.js";
+// import jwtAuth from "./src/middleware/jwt.middleware.js";
 import router from "./src/features/product/routes/product.routes.js";
 import UserRoutes from "./src/features/user/routes/user.routes.js";
 

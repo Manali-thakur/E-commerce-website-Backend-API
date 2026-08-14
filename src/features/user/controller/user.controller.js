@@ -6,7 +6,10 @@ export class UserController {
     const { name, email, password, type } = req.body;
     const result = await UserModel.signUp(name, email, password, type);
     console.log(result);
-    res.status(201).send(result);
+
+    res
+      .status(201)
+      .json({ status: "Success", msg: "User created Successfully" });
   }
 
   async signIn(req, res) {
@@ -15,17 +18,19 @@ export class UserController {
     const result = await UserModel.signIn(email, password);
     console.log(result);
     if (result) {
-      // 1. create the token
+      // 1. token creation
       const token = jwt.sign(
         { userID: result.id, email: result.email },
-        "T|7t]V+1nJ3G5m=d",
+        "ZdePxPHU9L63rddFpJfdfJdM",
         { expiresIn: "1h" },
       );
-
-      // sending the token
-      return res.status(200).send(token);
+      return res
+        .status(200)
+        .json({ status: "success", msg: "login successful", Token: token }); //returning token
     } else {
-      res.status(400).send("There is an Error!!");
+      res
+        .status(400)
+        .json({ status: "UnAuthorized", msg: "No such User Available" });
     }
   }
 }

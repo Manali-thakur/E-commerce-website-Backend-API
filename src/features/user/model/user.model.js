@@ -1,11 +1,11 @@
 import { users } from "../assests/users.js";
 
 export class UserModel {
-  constructor(id, name, email, passsword, type) {
+  constructor(id, name, email, password, type) {
     this.id = id;
     this.name = name;
     this.email = email;
-    this.passsword = passsword;
+    this.password = password;
     this.type = type;
   }
 
