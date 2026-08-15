@@ -55,6 +55,24 @@ export default class ProductController {
 
   rateProduct(req, res) {
     // code
+    console.log(req.query);
+    const { userId, productId, rating } = req.query;
+
+    if (!userId || !productId || !rating) {
+      return res.status(400).json({
+        success: false,
+        msg: "userId, productId and rating are required",
+      });
+    }
+
+    const result = ProductModel.rateProductModel(productId, userId, rating);
+
+    if (typeof result === "string") {
+      // model returned an error message
+      return res.status(400).json({ success: false, msg: result });
+    }
+
+    return res.status(200).json({ success: true, msg: result });
   }
 
   async filterProducts(req, res) {

@@ -6,6 +6,9 @@ const router = express.Router();
 const productController = new ProductController();
 
 // paths to controller methods
+
+router.post("/rate", productController.rateProduct);
+
 router.get("/", productController.getAllProducts);
 
 router.post("/", productController.addProduct);
