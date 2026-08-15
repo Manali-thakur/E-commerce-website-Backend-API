@@ -6,9 +6,33 @@
     "title": "E-Commerce API"
   },
   "host": "localhost:3200",
+  "securityDefinitions": {
+    "JWT": {
+      "in": "header",
+      "name": "Authorization",
+      "type": "apiKey"
+    }
+  },
   "paths": {
+    "/api/product": {
+      "get": {
+        "tags": ["Product"],
+        "summary": "Get Product",
+        "description": "User will get all products",
+        "security": [{ "JWT": {} }],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorize"
+          }
+        }
+      }
+    },
     "/api/user/login": {
       "post": {
+        "tags": ["Users"],
         "summary": "Login",
         "description": "This is for User login and when user logins we receive Token.",
         "parameters": [
