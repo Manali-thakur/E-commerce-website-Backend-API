@@ -1,0 +1,43 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "description": "API for e-commerce",
+    "title": "E-Commerce API"
+  },
+  "host": "localhost:3200",
+  "paths": {
+    "/api/user/login": {
+      "post": {
+        "summary": "Login",
+        "description": "This is for User login and when user logins we receive Token.",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "User Credentials",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Incorrect Credentials"
+          }
+        }
+      }
+    }
+  }
+}

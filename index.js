@@ -1,10 +1,13 @@
 import express from "express";
 import bodyParser from "body-parser";
+import swagger from "swagger-ui-express";
 // import basicAuthorizer from "./src/middleware/basicAuth.middleware.js";
 import jwtAuth from "./src/middleware/jwt.middleware.js";
 import router from "./src/features/product/routes/product.routes.js";
 import UserRoutes from "./src/features/user/routes/user.routes.js";
 import CartRouter from "./src/features/cart/routes/cartItem.route.js";
+
+import apiDocs from "./swagger.json" with { type: "json" };
 
 const server = express();
 
@@ -19,6 +22,8 @@ const cartRoutes = CartRouter;
 server.get("/", (req, res) => {
   res.send("Welcome to our E-commerce Website");
 });
+
+server.use("/api-docs", swagger.serve, swagger.setup(apiDocs));
 
 server.use("/api/product", jwtAuth, ProductRoutes);
 

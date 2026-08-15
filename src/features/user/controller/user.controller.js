@@ -30,7 +30,7 @@ export class UserController {
     } else {
       res
         .status(400)
-        .json({ status: "UnAuthorized", msg: "No such User Available" });
+        .json({ status: "UnAuthorized", msg: "Incorrect Credentials" });
     }
   }
 }
