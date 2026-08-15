@@ -30,10 +30,22 @@ export default class cartItemModel {
   static get(userId) {
     return cartItem.filter((u) => u.userId == userId);
   }
+
+  static deleteCart(id, userId) {
+    const CartItemIndex = cartItem.findIndex(
+      (i) => i.cartId == id && i.userId == userId,
+    );
+
+    if (CartItemIndex == -1) {
+      return false;
+    } else {
+      cartItem.splice(CartItemIndex, 1);
+    }
+  }
 }
 
 var cartItem = [
   new cartItemModel(1, 1, 1, 1),
   new cartItemModel(2, 1, 3, 2),
-  new cartItemModel(12, 2, 5, 2),
+  new cartItemModel(12, 2, 5, 3),
 ]; //productId= 1, userId = 2, quantity =1, cartId = 1

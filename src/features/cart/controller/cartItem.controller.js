@@ -48,6 +48,25 @@ export default class CartItemController {
       });
     }
   }
+
+  async deleteCart(req, res) {
+    const id = req.params.id;
+
+    const userId = req.userId;
+
+    const result = await cartItemModel.deleteCart(id);
+
+    if (result) {
+      return res
+        .status(404)
+        .json({ status: "Failed", msg: "No such Cart Available" });
+    } else {
+      return res.status(200).json({
+        status: "Successful",
+        msg: "Cart Item is removed",
+      });
+    }
+  }
   //   update quantity of existing cart item
   // delete cart through cart id
 }
