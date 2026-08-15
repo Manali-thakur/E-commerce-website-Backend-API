@@ -1,4 +1,5 @@
 // productId, userID, quantity
+import ProductModel from "../../product/model/product.model.js";
 
 export default class cartItemModel {
   constructor(productId, userId, quantity, cartId) {
@@ -6,6 +7,10 @@ export default class cartItemModel {
     this.userId = userId;
     this.quantity = quantity;
     this.cartId = cartId;
+  }
+
+  static availableProduct(productId) {
+    return ProductModel.getAll().filter((p) => p.id == productId);
   }
 
   static addCartItem(productId, userId, quantity) {
@@ -21,6 +26,14 @@ export default class cartItemModel {
 
     return cartItem;
   }
+
+  static get(userId) {
+    return cartItem.filter((u) => u.userId == userId);
+  }
 }
 
-var cartItem = [new cartItemModel(1, 2, 1, 1)]; //productId= 1, userId = 2, quantity =1, cartId = 1
+var cartItem = [
+  new cartItemModel(1, 1, 1, 1),
+  new cartItemModel(2, 1, 3, 2),
+  new cartItemModel(12, 2, 5, 2),
+]; //productId= 1, userId = 2, quantity =1, cartId = 1
