@@ -54,6 +54,7 @@ export default class ProductController {
   }
 
   rateProduct(req, res) {
+    // http://localhost:3200/api/product/rate?userId=2&productId=1&rating=4
     // code
     console.log(req.query);
     const { userId, productId, rating } = req.query;
