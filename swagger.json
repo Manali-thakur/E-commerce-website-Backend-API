@@ -1,16 +1,22 @@
 {
-  "swagger": "2.0",
+  "openapi": "3.0.0",
   "info": {
     "version": "1.0.0",
     "description": "API for e-commerce",
     "title": "E-Commerce API"
   },
-  "host": "localhost:3200",
-  "securityDefinitions": {
-    "JWT": {
-      "in": "header",
-      "name": "Authorization",
-      "type": "apiKey"
+  "servers": [
+    {
+      "url": "http://localhost:3200"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "JWT": {
+        "in": "header",
+        "name": "Authorization",
+        "type": "apiKey"
+      }
     }
   },
   "paths": {
@@ -35,24 +41,23 @@
         "tags": ["Users"],
         "summary": "Login",
         "description": "This is for User login and when user logins we receive Token.",
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "description": "User Credentials",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "email": {
-                  "type": "string"
-                },
-                "password": {
-                  "type": "string"
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
                 }
               }
             }
           }
-        ],
+        },
         "responses": {
           "200": {
             "description": "OK"

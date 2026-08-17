@@ -24,3 +24,7 @@ npm jsonwebtoken
 
 1.import JWT
 2.create token- generate the key(onlinekeygenerator), add expires in value-imp in the options
+
+
+
+link for swagger- http://localhost:3200/api-docs
