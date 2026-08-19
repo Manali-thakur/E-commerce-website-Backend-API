@@ -13,10 +13,13 @@ import apiDocs from "./swagger.json" with { type: "json" };
 // server creation
 const server = express();
 
+// adding cors option for specific url
+var corsOptions = {
+  origin:'https://localhost:5500'
+}
 
 // using library to configure policy
-// by default allow all origin
-server.use(cors());
+server.use(cors(corsOptions));
 
 
 
