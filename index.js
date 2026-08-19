@@ -9,7 +9,24 @@ import CartRouter from "./src/features/cart/routes/cartItem.route.js";
 
 import apiDocs from "./swagger.json" with { type: "json" };
 
+// server creation
 const server = express();
+
+// CORS policy configuration using the middleware
+server.use((req, res, next) => {
+  res.header(
+    "Access-control-Allow-Origin",
+    "link of the frontend- https://localhost:5500",
+  );
+  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.header("Access-Control-Allow-Methods", "*");
+
+  // return ok for preflight request
+  if (req.method == "OPTIONS") {
+    return res.sendStatus(200);
+  }
+  next();
+});
 
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({ extended: true })); // for form-urlencoded bodies
@@ -31,11 +48,15 @@ server.use("/api/user", userRoutes);
 // default Request handler
 server.get("/", (req, res) => {
   res.send("Welcome to our E-commerce Website");
-}); 
+});
 
 // -middleware to handle 404 request( Request that does not exist)
 server.use((req, res) => {
-  res.status(404).send("API not found. Please check our documentation for more information at localhost:3200/api-docs");
+  res
+    .status(404)
+    .send(
+      "API not found. Please check our documentation for more information at localhost:3200/api-docs",
+    );
 });
 
 export default server;
