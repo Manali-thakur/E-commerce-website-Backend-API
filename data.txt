@@ -28,3 +28,7 @@ npm jsonwebtoken
 
 
 link for swagger- http://localhost:3200/api-docs
+
+
+
+installed npm i cors for the cors library download

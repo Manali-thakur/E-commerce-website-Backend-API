@@ -1,6 +1,7 @@
 import express from "express";
 import bodyParser from "body-parser";
 import swagger from "swagger-ui-express";
+import cors from cors;
 // import basicAuthorizer from "./src/middleware/basicAuth.middleware.js";
 import jwtAuth from "./src/middleware/jwt.middleware.js";
 import router from "./src/features/product/routes/product.routes.js";
@@ -12,21 +13,28 @@ import apiDocs from "./swagger.json" with { type: "json" };
 // server creation
 const server = express();
 
-// CORS policy configuration using the middleware
-server.use((req, res, next) => {
-  res.header(
-    "Access-control-Allow-Origin",
-    "link of the frontend- https://localhost:5500",
-  );
-  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  res.header("Access-Control-Allow-Methods", "*");
 
-  // return ok for preflight request
-  if (req.method == "OPTIONS") {
-    return res.sendStatus(200);
-  }
-  next();
-});
+// using library to configure policy
+// by default allow all origin
+server.use(cors());
+
+
+
+// CORS policy configuration using the middleware
+// server.use((req, res, next) => {
+//   res.header(
+//     "Access-control-Allow-Origin",
+//     "link of the frontend- https://localhost:5500",
+//   );
+//   res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+//   res.header("Access-Control-Allow-Methods", "*");
+
+//   // return ok for preflight request
+//   if (req.method == "OPTIONS") {
+//     return res.sendStatus(200);
+//   }
+//   next();
+// });
 
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({ extended: true })); // for form-urlencoded bodies
