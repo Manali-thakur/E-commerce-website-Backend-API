@@ -13,12 +13,15 @@ async function log(logData) {
 
 // wrapping the function inside middleware then using middleware for the requests
 const loggerMiddleware = async (req, res, next) => {
-    const logData = `${req.url} = ${JSON.stringify(req.body)}`
-  // 1. Log request body
-  await log(logData);
-
-  // imp to call next() in the pipeling else the function is not complete
-  next();
+    // dont log when user send sigin req so we don't save the password
+  if (!req.url.includes("login")) {
+    const logData = `${req.url} = ${JSON.stringify(req.body)}`;
+    // 1. Log request body
+    await log(logData);
+  } else {
+    // imp to call next() in the pipeling else the function is not complete
+    next();
+  }
 };
 
 export default loggerMiddleware;
