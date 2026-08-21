@@ -1,27 +1,40 @@
-import fs from "fs";
+import winston from "winston";
 
-const fsPromise = fs.promises;
+const logger = winston.createLogger({
+  level: "info",
+  format: winston.format.combine(
+    winston.format.timestamp(),
+    winston.format.json(),
+  ),
+  defaultMeta: { service: "request-logging" },
+  transports: [new winston.transports.File({ filename: "logs.txt" })],
+});
 
-async function log(logData) {
-  try {
-    logData = `\n ${new Date().toString()} -${logData}`;
-    await fsPromise.appendFile("log.txt", logData);
-  } catch (err) {
-    console.log(err);
+const SENSITIVE_ROUTES = ["/login", "/signup", "/reset-password"];
+const SENSITIVE_FIELDS = ["password", "token", "secret", "creditCard"];
+
+function redactBody(body = {}) {
+  const clone = { ...body };
+  for (const field of SENSITIVE_FIELDS) {
+    if (field in clone) clone[field] = "[REDACTED]";
   }
+  return clone;
 }
 
-// wrapping the function inside middleware then using middleware for the requests
-const loggerMiddleware = async (req, res, next) => {
-    // dont log when user send sigin req so we don't save the password
-  if (!req.url.includes("login")) {
-    const logData = `${req.url} = ${JSON.stringify(req.body)}`;
-    // 1. Log request body
-    await log(logData);
-  } else {
-    // imp to call next() in the pipeling else the function is not complete
-    next();
+const loggerMiddleware = (req, res, next) => {
+  try {
+    const isSensitiveRoute = SENSITIVE_ROUTES.includes(req.path);
+    const message = `${new Date().toString()}\n\nreq URL: ${req.path} \nreqBody: ${JSON.stringify(req.body)}`;
+
+    logger.info("incoming request", {
+      method: req.method,
+      url: req.originalUrl ?? req.url,
+      body: isSensitiveRoute ? "[SKIPPED]" : redactBody(req.body),message
+    });
+  } catch (err) {
+    logger.error("request logging failed", { error: err.message });
   }
+  next();
 };
 
 export default loggerMiddleware;
