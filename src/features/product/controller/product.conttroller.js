@@ -53,7 +53,7 @@ export default class ProductController {
     }
   }
 
-  rateProduct(req, res) {
+  async rateProduct(req, res) {
     // http://localhost:3200/api/product/rate?userId=2&productId=1&rating=4
     // code
     console.log(req.query);
@@ -66,14 +66,17 @@ export default class ProductController {
       });
     }
 
-    const result = ProductModel.rateProductModel(productId, userId, rating);
-
-    if (typeof result === "string") {
+    try {
+      await ProductModel.rateProductModel(userId, productId, rating);
+    } catch (err) {
       // model returned an error message
-      return res.status(400).json({ success: false, msg: result });
+      return res
+        .status(400)
+        .json({ success: false, msg: err.message });
     }
-
-    return res.status(200).json({ success: true, msg: result });
+    return res
+      .status(200)
+      .json({ success: true, msg: "Product is rated successfully" });
   }
 
   async filterProducts(req, res) {
