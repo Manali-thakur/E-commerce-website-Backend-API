@@ -49,18 +49,24 @@ const cartRoutes = CartRouter;
 server.use("/api-docs", swagger.serve, swagger.setup(apiDocs));
 
 // implementing logger middleware
-server.use(loggerMiddleware); 
+server.use(loggerMiddleware);
 
 // API's
 server.use("/api/product", jwtAuth, ProductRoutes);
 
-server.use("/api/cart",loggerMiddleware, jwtAuth, cartRoutes);
+server.use("/api/cart", loggerMiddleware, jwtAuth, cartRoutes);
 
 server.use("/api/user", userRoutes);
 
 // default Request handler
 server.get("/", (req, res) => {
   res.send("Welcome to our E-commerce Website");
+});
+
+// error handler middleware
+server.use((err, req, res, next) => {
+  console.log(err);
+  res.status(503).send("Something went wrong, please try later");
 });
 
 // -middleware to handle 404 request( Request that does not exist)
