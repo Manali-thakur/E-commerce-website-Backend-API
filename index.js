@@ -8,6 +8,7 @@ import router from "./src/features/product/routes/product.routes.js";
 import UserRoutes from "./src/features/user/routes/user.routes.js";
 import CartRouter from "./src/features/cart/routes/cartItem.route.js";
 import loggerMiddleware from "./src/middleware/logger.middleware.js";
+import { ApplicationError } from "./src/error-handler/applicationError.js";
 
 import apiDocs from "./swagger.json" with { type: "json" };
 
@@ -66,7 +67,12 @@ server.get("/", (req, res) => {
 // error handler middleware
 server.use((err, req, res, next) => {
   console.log(err);
-  res.status(503).send("Something went wrong, please try later");
+  if (err instanceof ApplicationError) {
+    res.status(err.code).send(err.message);
+  }
+
+  // server error
+  res.status(500).send("Something went wrong, please try later");
 });
 
 // -middleware to handle 404 request( Request that does not exist)

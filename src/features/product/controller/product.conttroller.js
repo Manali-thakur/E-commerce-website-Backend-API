@@ -66,14 +66,7 @@ export default class ProductController {
       });
     }
 
-    try {
-      await ProductModel.rateProductModel(userId, productId, rating);
-    } catch (err) {
-      // model returned an error message
-      return res
-        .status(400)
-        .json({ success: false, msg: err.message });
-    }
+    await ProductModel.rateProductModel(userId, productId, rating);
     return res
       .status(200)
       .json({ success: true, msg: "Product is rated successfully" });

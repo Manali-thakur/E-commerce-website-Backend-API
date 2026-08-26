@@ -1,7 +1,7 @@
 // product.model.js
 import { products } from "../assests/products.js";
 import { UserModel } from "../../user/model/user.model.js";
-
+import { ApplicationError } from "../../../error-handler/applicationError.js";
 export default class ProductModel {
   constructor(
     id,
@@ -62,18 +62,18 @@ export default class ProductModel {
     // 1. validate user
     const user = UserModel.getAllUsers().find((u) => u.id == userID);
     if (!user) {
-      throw new Error("User not found..!!");
+      throw new ApplicationError("User not found..!!", 400);
     }
 
     // 2. validate product
     const product = products.find((p) => p.id == productID);
     if (!product) {
-      throw new Error("Product not Found");
+      throw new ApplicationError("Product not Found", 400);
     }
 
     // 3. validate rating range
     if (rating > 5 || rating < 0) {
-      throw new Error("Rating should be in between 0 to 5");
+      throw new ApplicationError("Rating should be in between 0 to 5", 400);
     }
 
     // 4. ensure ratings array exists
