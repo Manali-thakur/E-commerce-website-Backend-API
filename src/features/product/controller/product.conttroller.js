@@ -53,23 +53,29 @@ export default class ProductController {
     }
   }
 
-  async rateProduct(req, res) {
+  async rateProduct(req, res, next) {
     // http://localhost:3200/api/product/rate?userId=2&productId=1&rating=4
     // code
-    console.log(req.query);
-    const { userId, productId, rating } = req.query;
+    try {
+      console.log(req.query);
+      const { userId, productId, rating } = req.query;
 
-    if (!userId || !productId || !rating) {
-      return res.status(400).json({
-        success: false,
-        msg: "userId, productId and rating are required",
-      });
+      if (!userId || !productId || !rating) {
+        return res.status(400).json({
+          success: false,
+          msg: "userId, productId and rating are required",
+        });
+      }
+
+      await ProductModel.rateProductModel(userId, productId, rating);
+      return res
+        .status(200)
+        .json({ success: true, msg: "Product is rated successfully" });
+    } catch (err) {
+      // calling the application error middleware
+      next(err);
+      console.log("passing error to middleware");
     }
-
-    await ProductModel.rateProductModel(userId, productId, rating);
-    return res
-      .status(200)
-      .json({ success: true, msg: "Product is rated successfully" });
   }
 
   async filterProducts(req, res) {
