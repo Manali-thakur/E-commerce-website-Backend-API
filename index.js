@@ -64,6 +64,16 @@ server.get("/", (req, res) => {
   res.send("Welcome to our E-commerce Website");
 });
 
+// -middleware to handle 404 request( Request that does not exist)
+server.use((req, res) => {
+  res
+    .status(404)
+    .send(
+      "API not found. Please check our documentation for more information at localhost:3200/api-docs",
+    );
+});
+
+// error handle middleware should be the last middleware after the router and all
 // error handler middleware
 server.use((err, req, res, next) => {
   console.log(err);
@@ -73,15 +83,6 @@ server.use((err, req, res, next) => {
 
   // server error
   res.status(500).send("Something went wrong, please try later");
-});
-
-// -middleware to handle 404 request( Request that does not exist)
-server.use((req, res) => {
-  res
-    .status(404)
-    .send(
-      "API not found. Please check our documentation for more information at localhost:3200/api-docs",
-    );
 });
 
 export default server;
