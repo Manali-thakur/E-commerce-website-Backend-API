@@ -3,13 +3,17 @@ import jwt from "jsonwebtoken";
 
 export class UserController {
   async signUp(req, res) {
-    const { name, email, password, type } = req.body;
-    const result = await UserModel.signUp(name, email, password, type);
-    console.log(result);
-
-    res
-      .status(201)
-      .json({ status: "Success", msg: "User created Successfully" });
+    try {
+      const { name, email, password, type } = req.body;
+      const result = await UserModel.signUp(name, email, password, type);
+      console.log(result);
+      res
+        .status(201)
+        .json({ status: "Success", msg: "User created Successfully" });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ status: "Error", msg: "Failed to create user" });
+    }
   }
 
   async signIn(req, res) {
