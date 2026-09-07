@@ -24,9 +24,9 @@ function redactBody(body = {}) {
 const loggerMiddleware = (req, res, next) => {
   try {
     const isSensitiveRoute = SENSITIVE_ROUTES.includes(req.path);
-    const message = `\n \n ${new Date().toString()}\n\nreq URL: ${req.path} \nreqBody: ${JSON.stringify(req.body)}\n \n` ;
 
     logger.info("incoming request", {
+      level,
       method: req.method,
       url: req.originalUrl ?? req.url,
       body: isSensitiveRoute ? "[SKIPPED]" : redactBody(req.body),message
