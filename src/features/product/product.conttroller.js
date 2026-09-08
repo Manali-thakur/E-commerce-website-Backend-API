@@ -1,4 +1,4 @@
-import ProductModel from "../model/product.model.js";
+import ProductModel from "./product.model.js";
 
 export default class ProductController {
   // add, all, rate, getone, filter
