@@ -1,3 +1,4 @@
+import "./env.js";
 import express from "express";
 import bodyParser from "body-parser";
 import swagger from "swagger-ui-express";

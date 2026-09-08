@@ -63,7 +63,7 @@ export class UserController {
           // 1. token creation
           const token = jwt.sign(
             { userID: user.id, email: user.email },
-            "ZdePxPHU9L63rddFpJfdfJdM",
+            process.env.JWT_SECRET,
             { expiresIn: "1h" },
           );
           return res.status(200).json({

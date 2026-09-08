@@ -1,9 +1,10 @@
 import { MongoClient } from "mongodb";
 
 let client;
-const url = "mongodb://localhost:27017/EcommerceWebsiteDB";
+// const url = process.env.DB_URL;
+// Replace with your MongoDB connection string
 export const connectToMongoDB = async () => {
-  await MongoClient.connect(url)
+  await MongoClient.connect(process.env.DB_URL)
     .then((clientInstance) => {
       client = clientInstance;
       console.log("Connected to MongoDB");
