@@ -1,6 +1,6 @@
-import { users } from "../assests/users.js";
-import { getDB } from "../../../../config/mongodb.js";
-import { ApplicationError } from "../../../error-handler/applicationError.js";
+import { users } from "./assests/users.js";
+import { getDB } from "../../../config/mongodb.js";
+import { ApplicationError } from "../../error-handler/applicationError.js";
 
 export class UserModel {
   constructor(id, name, email, password, type) {
@@ -22,7 +22,7 @@ export class UserModel {
       const newUser = new UserModel(null, name, email, password, type);
       // 3. Insert the new user into the database
       await collection.insertOne(newUser);
-    
+
       // 4. Return the newly created user
       return newUser;
     } catch (err) {

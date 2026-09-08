@@ -1,6 +1,6 @@
 // product.model.js
 import { products } from "../assests/products.js";
-import { UserModel } from "../../user/model/user.model.js";
+import { UserModel } from "../../user/user.model.js";
 import { ApplicationError } from "../../../error-handler/applicationError.js";
 export default class ProductModel {
   constructor(

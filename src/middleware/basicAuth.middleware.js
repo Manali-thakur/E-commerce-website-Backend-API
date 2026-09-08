@@ -1,4 +1,4 @@
-// import { UserModel } from "../features/user/model/user.model.js";
+// import { UserModel } from "../features/user/user.model.js";
 // const basicAuthorizer = (req, res, next) => {
 //   //1. check if its empty
 //   const authHeader = req.headers["authorization"];

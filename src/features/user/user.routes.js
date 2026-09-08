@@ -1,12 +1,12 @@
 import express from "express";
-import { UserController } from "../controller/user.controller.js";
+import { UserController } from "./user.controller.js";
 
 const UserRoutes = express.Router();
 
 const userController = new UserController();
 
 // all the paths
-UserRoutes.post("/register", userController.signUp);
+UserRoutes.post("/register", (req, res) => userController.signUp(req, res));
 
 UserRoutes.post("/login", userController.signIn);
 

@@ -1,3 +1,7 @@
 {"error":"level is not defined","level":"error","message":"request logging failed","service":"request-logging","timestamp":"2026-09-07T20:46:40.281Z"}
 {"error":"level is not defined","level":"error","message":"request logging failed","service":"request-logging","timestamp":"2026-09-07T20:50:34.170Z"}
 {"error":"level is not defined","level":"error","message":"request logging failed","service":"request-logging","timestamp":"2026-09-07T20:51:41.385Z"}
+{"error":"level is not defined","level":"error","message":"request logging failed","service":"request-logging","timestamp":"2026-09-08T10:22:57.776Z"}
+{"error":"level is not defined","level":"error","message":"request logging failed","service":"request-logging","timestamp":"2026-09-08T10:27:15.928Z"}
+{"error":"level is not defined","level":"error","message":"request logging failed","service":"request-logging","timestamp":"2026-09-08T10:30:31.941Z"}
+{"error":"level is not defined","level":"error","message":"request logging failed","service":"request-logging","timestamp":"2026-09-08T10:31:55.375Z"}
