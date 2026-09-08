@@ -37,25 +37,32 @@ export class UserController {
     }
   }
 
-  async signIn(req, res) {
-    const { email, password } = req.body;
-    console.log(req.body);
-    const result = await UserModel.signIn(email, password);
-    console.log(result);
-    if (result) {
-      // 1. token creation
-      const token = jwt.sign(
-        { userID: result.id, email: result.email },
-        "ZdePxPHU9L63rddFpJfdfJdM",
-        { expiresIn: "1h" },
+  async signIn(req, res, next) {
+    try {
+      const result = await this.userRepository.signIn(
+        req.body.email,
+        req.body.password,
       );
-      return res
-        .status(200)
-        .json({ status: "success", msg: "login successful", Token: token }); //returning token
-    } else {
-      res
-        .status(400)
-        .json({ status: "UnAuthorized", msg: "Incorrect Credentials" });
+      console.log(result);
+
+      if (result) {
+        // 1. token creation
+        const token = jwt.sign(
+          { userID: result.id, email: result.email },
+          "ZdePxPHU9L63rddFpJfdfJdM",
+          { expiresIn: "1h" },
+        );
+        return res
+          .status(200)
+          .json({ status: "success", msg: "login successful", Token: token }); //returning token
+      } else {
+        res
+          .status(400)
+          .json({ status: "UnAuthorized", msg: "Incorrect Credentials" });
+      }
+    } catch (err) {
+      throw new ApplicationError("Failed to sign in user", 500, err.message);
+      console.error(err);
     }
   }
 }

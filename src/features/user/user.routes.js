@@ -8,6 +8,6 @@ const userController = new UserController();
 // all the paths
 UserRoutes.post("/register", (req, res) => userController.signUp(req, res));
 
-UserRoutes.post("/login", userController.signIn);
+UserRoutes.post("/login", (req, res) => userController.signIn(req, res));
 
 export default UserRoutes;

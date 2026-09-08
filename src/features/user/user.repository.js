@@ -21,6 +21,23 @@ class UserRepository {
     }
   }
 
+  async signIn(email, password) {
+    try {
+      // 1, Get the Database instance
+      const db = getDB();
+
+      // 2. Get the collection
+      const collection = db.collection("users");
+
+      //   3.Finding the user using the email and password
+      const user = await collection.findOne({ email, password });
+
+      // 4. Return the newly Signed-In user
+      return user;
+    } catch (err) {
+      throw new ApplicationError("Failed to sign in user", 500, err.message);
+    }
+  }
 }
 
 export default UserRepository;
