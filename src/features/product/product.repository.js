@@ -1,5 +1,6 @@
 import { getDB } from "../../../config/mongodb.js";
 import { ApplicationError } from "../../error-handler/applicationError.js";
+import { ObjectId } from "mongodb";
 
 class ProductRepository {
   constructor() {
@@ -45,7 +46,7 @@ class ProductRepository {
     }
   }
 
-  async get(title) {
+  async get(id) {
     try {
       // 1. Get the DB
       const db = await getDB();
@@ -54,7 +55,7 @@ class ProductRepository {
       const collection = db.collection(this.collection);
 
       // 3. Get one product
-      const product = await collection.findOne({ title: title });
+      const product = await collection.findOne({ _id: id });
 
       // 4. Returning the Product
       return product;
@@ -90,6 +91,27 @@ class ProductRepository {
     } catch (err) {
       console.log(`ERROR ----- ${err}`);
       throw new ApplicationError("Unable to filter the products", 500);
+    }
+  }
+
+  async rate(userID, productID, rating) {
+    try {
+      const db = await getDB();
+      const collection = db.collection(this.collection);
+
+      //   finding the document
+      collection.updateOne(
+        {
+          _id: new ObjectId(productID),
+        },
+        {
+          // pushing the document
+          $push: { ratings: { userID: userID, rating: rating } },
+        },
+      );
+    } catch (err) {
+      console.log(`ERROR ----- ${err}`);
+      throw new ApplicationError("Unable to Rate the product", 500);
     }
   }
 }

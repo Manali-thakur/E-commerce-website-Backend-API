@@ -31,40 +31,40 @@ export default class ProductModel {
   // remove the function that we have already created in the product.repository.js file and use that function instead of this one
 
 
-  static rateProductModel(userID, productID, rating) {
-    // 1. validate user
-    const user = UserModel.getAllUsers().find((u) => u.id == userID);
-    if (!user) {
-      throw new ApplicationError("User not found..!!", 400);
-    }
+  // static rateProductModel(userID, productID, rating) {
+  //   // 1. validate user
+  //   const user = UserModel.getAllUsers().find((u) => u.id == userID);
+  //   if (!user) {
+  //     throw new ApplicationError("User not found..!!", 400);
+  //   }
 
-    // 2. validate product
-    const product = products.find((p) => p.id == productID);
-    if (!product) {
-      throw new ApplicationError("Product not Found", 400);
-    }
+  //   // 2. validate product
+  //   const product = products.find((p) => p.id == productID);
+  //   if (!product) {
+  //     throw new ApplicationError("Product not Found", 400);
+  //   }
 
-    // 3. validate rating range
-    if (rating > 5 || rating < 0) {
-      throw new ApplicationError("Rating should be in between 0 to 5", 400);
-    }
+  //   // 3. validate rating range
+  //   if (rating > 5 || rating < 0) {
+  //     throw new ApplicationError("Rating should be in between 0 to 5", 400);
+  //   }
 
-    // 4. ensure ratings array exists
-    if (!product.ratings) {
-      product.ratings = [];
-    }
+  //   // 4. ensure ratings array exists
+  //   if (!product.ratings) {
+  //     product.ratings = [];
+  //   }
 
-    // 5. update if user already rated, else push new
-    const existingRatingIndex = product.ratings.findIndex(
-      (r) => r.userID == userID,
-    );
+  //   // 5. update if user already rated, else push new
+  //   const existingRatingIndex = product.ratings.findIndex(
+  //     (r) => r.userID == userID,
+  //   );
 
-    if (existingRatingIndex >= 0) {
-      product.ratings[existingRatingIndex] = { userID: userID, rating: rating };
-    } else {
-      product.ratings.push({ userID: userID, rating: rating });
-    }
+  //   if (existingRatingIndex >= 0) {
+  //     product.ratings[existingRatingIndex] = { userID: userID, rating: rating };
+  //   } else {
+  //     product.ratings.push({ userID: userID, rating: rating });
+  //   }
 
-    return product;
-  }
+  //   return product;
+  // }
 }
