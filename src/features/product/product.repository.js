@@ -63,6 +63,35 @@ class ProductRepository {
       throw new ApplicationError("Unabale to get a Product", 500);
     }
   }
+
+  async filter(minPrice, maxPrice, category) {
+    try {
+      //  1. Get the DB
+      const db = await getDB();
+
+      //2. get the collection
+      const collection = db.collection(this.collection);
+
+      // 3. Creating the Filter  Object
+      const filterExpression = {};
+      if (minPrice) {
+        filterExpression.price = { $gte: parseFloat(minPrice) };
+      }
+      if (maxPrice) {
+        filterExpression.price = {
+          ...filterExpression.price,
+          $lte: parseFloat(maxPrice),
+        };
+      }
+      if (category) {
+        filterExpression.category = category;
+      }
+      return await collection.find(filterExpression).toArray();
+    } catch (err) {
+      console.log(`ERROR ----- ${err}`);
+      throw new ApplicationError("Unable to filter the products", 500);
+    }
+  }
 }
 
 export default ProductRepository;

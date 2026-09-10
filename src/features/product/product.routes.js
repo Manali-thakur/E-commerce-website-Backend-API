@@ -19,7 +19,9 @@ router.post("/", (req, res) => {
   productController.addProduct(req, res);
 });
 
-router.get("/filter", productController.filterProducts);
+router.get("/filter", (req,res) => {
+  productController.filterProducts(req,res);
+});
 
 router.get("/:title", (req, res) => {
   productController.getOneProduct(req, res);

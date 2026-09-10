@@ -30,21 +30,7 @@ export default class ProductModel {
 
   // remove the function that we have already created in the product.repository.js file and use that function instead of this one
 
-  static filter(minPrice, maxPrice, category) {
-    const min = minPrice ? Number(minPrice) : null;
-    const max = maxPrice ? Number(maxPrice) : null;
 
-    const result = products.filter((product) => {
-      const matchesMin = !min || product.price >= min;
-      const matchesMax = !max || product.price <= max;
-      const matchesCategory =
-        !category || product.category.toLowerCase() === category.toLowerCase();
-
-      return matchesMin && matchesMax && matchesCategory;
-    });
-
-    return result;
-  }
   static rateProductModel(userID, productID, rating) {
     // 1. validate user
     const user = UserModel.getAllUsers().find((u) => u.id == userID);

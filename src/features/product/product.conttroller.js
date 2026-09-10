@@ -88,14 +88,21 @@ export default class ProductController {
   async filterProducts(req, res) {
     // http://localhost:3200/api/product/filter?minPrice=10&maxPrice=30&category=beauty
     // code
+
+    try{
     const minPrice = req.query.minPrice;
     console.log(minPrice);
     const maxPrice = req.query.maxPrice;
     const category = req.query.category;
 
-    const result = await ProductModel.filter(minPrice, maxPrice, category);
-    console.log(result);
+    const result = await this.productRepository.filter(minPrice, maxPrice, category);
+
+    console.log(`filtered products: ${JSON.stringify(result)}`);
 
     res.status(200).send(result);
+    }catch(err){
+      console.log(err);
+      res.status(500).send("Unable to filter products");
+    }
   }
 }
