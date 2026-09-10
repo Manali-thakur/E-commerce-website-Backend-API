@@ -16,7 +16,7 @@ export default class ProductModel {
     shippingInformation,
     availabilityStatus,
   ) {
-    this.id = id;
+    this._id = id;
     this.description = description;
     this.category = category;
     this.price = price;
@@ -28,20 +28,7 @@ export default class ProductModel {
     this.availabilityStatus = availabilityStatus;
   }
 
-  static getAll() {
-    return products;
-  }
-
-  static add(product) {
-    product.id = products.length + 1;
-    products.push(product);
-    return product;
-  }
-
-  static getOne(id) {
-    const product = products.find((i) => i.id == id);
-    return product;
-  }
+  // remove the function that we have already created in the product.repository.js file and use that function instead of this one
 
   static filter(minPrice, maxPrice, category) {
     const min = minPrice ? Number(minPrice) : null;

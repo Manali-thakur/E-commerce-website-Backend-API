@@ -1,6 +1,5 @@
-import { users } from "./assests/users.js";
-import { getDB } from "../../../config/mongodb.js";
-import { ApplicationError } from "../../error-handler/applicationError.js";
+// import { getDB } from "../../../config/mongodb.js";
+// import { ApplicationError } from "../../error-handler/applicationError.js";
 
 export class UserModel {
   constructor(id, name, email, password, type) {
@@ -14,7 +13,7 @@ export class UserModel {
   // removed signUp and signIn methods from the UserModel class as they are now handled by the UserRepository class
 
 
-  static getAllUsers() {
-    return users;
-  }
+  // static getAllUsers() {
+  //   return users;
+  // }
 }

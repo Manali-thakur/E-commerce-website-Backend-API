@@ -5,7 +5,7 @@ import swagger from "swagger-ui-express";
 import cors from "cors";
 // import basicAuthorizer from "./src/middleware/basicAuth.middleware.js";
 import jwtAuth from "./src/middleware/jwt.middleware.js";
-import router from "./src/features/product/routes/product.routes.js";
+import router from "./src/features/product/product.routes.js";
 import UserRoutes from "./src/features/user/user.routes.js";
 import CartRouter from "./src/features/cart/routes/cartItem.route.js";
 import loggerMiddleware from "./src/middleware/logger.middleware.js";

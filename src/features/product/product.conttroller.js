@@ -1,14 +1,21 @@
 import ProductModel from "./product.model.js";
+// import {ApplicationError} from "../../error-handler/applicationError.js";
+import ProductRepository from "./product.repository.js";
 
 export default class ProductController {
   // add, all, rate, getone, filter
 
+  // controller for the repository
+  constructor() {
+    this.productRepository = new ProductRepository();
+  }
+
   async getAllProducts(req, res) {
-    const allproducts = await ProductModel.getAll();
+    const allproducts = await this.productRepository.getAll();
     res.send(allproducts);
   }
 
-  addProduct(req, res) {
+  async addProduct(req, res) {
     // code
     const {
       title,
@@ -22,7 +29,7 @@ export default class ProductController {
       shippingInformation,
       availabilityStatus,
     } = req.body;
-    console.log(req.body);
+    console.log(`req.body: ${JSON.stringify(req.body)}`);
 
     const newProduct = {
       title,
@@ -37,15 +44,15 @@ export default class ProductController {
       availabilityStatus,
     };
 
-    const create = ProductModel.add(newProduct);
+    const create = await this.productRepository.add(newProduct);
 
     res.json(create);
   }
 
-  getOneProduct(req, res) {
+  async getOneProduct(req, res) {
     // code
-    const id = req.params.id;
-    const product = ProductModel.getOne(id);
+    const title = req.params.title;
+    const product = await this.productRepository.get(title);
     if (!product) {
       res.status(404).send("Product not Found..!!");
     } else {
