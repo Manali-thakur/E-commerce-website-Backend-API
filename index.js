@@ -7,7 +7,7 @@ import cors from "cors";
 import jwtAuth from "./src/middleware/jwt.middleware.js";
 import router from "./src/features/product/product.routes.js";
 import UserRoutes from "./src/features/user/user.routes.js";
-import CartRouter from "./src/features/cart/routes/cartItem.route.js";
+import CartRouter from "./src/features/cart/cartItem.route.js";
 import loggerMiddleware from "./src/middleware/logger.middleware.js";
 import { ApplicationError } from "./src/error-handler/applicationError.js";
 

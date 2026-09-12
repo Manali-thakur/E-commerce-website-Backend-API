@@ -1,5 +1,5 @@
 // productId, userID, quantity
-import ProductModel from "../../product/product.model.js";
+import ProductModel from "../product/product.model.js";
 
 export default class cartItemModel {
   constructor(productId, userId, quantity, cartId) {

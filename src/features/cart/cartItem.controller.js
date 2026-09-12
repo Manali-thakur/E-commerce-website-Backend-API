@@ -1,4 +1,4 @@
-import cartItemModel from "../model/cartItems.model.js";
+import cartItemModel from "./cartItems.model.js";
 
 export default class CartItemController {
   async add(req, res) {
