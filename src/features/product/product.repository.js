@@ -99,16 +99,40 @@ class ProductRepository {
       const db = await getDB();
       const collection = db.collection(this.collection);
 
-      //   finding the document
-      collection.updateOne(
-        {
-          _id: new ObjectId(productID),
-        },
-        {
-          // pushing the document
-          $push: { ratings: { userID: userID, rating: rating } },
-        },
-      );
+      // 1.find the product
+      const product = await collection.findOne({_id : new ObjectId(productID)});
+      // 2.Find the rating
+      const userRating = product?.ratings?.find(r => r.userID === userID);
+
+      let result;
+
+      if (userRating) {
+        //3.Update the rating
+        result = await collection.updateOne({
+          // find the rating
+          _id: new ObjectId(productID), "ratings.userID": userID
+        },{
+          $set:{
+            // $ placeholer will gice the first rating which will be find according to upper critera
+            "ratings.$.rating":rating  //updating the rating
+          }
+        })
+
+
+      } else {
+        // 4.pushing new rating
+        result = await collection.updateOne(
+          {
+            _id: new ObjectId(productID),
+          },
+          {
+            // pushing the document
+            $push: { ratings: { userID: userID, rating: rating } },
+          },
+        );
+      }
+
+      
     } catch (err) {
       console.log(`ERROR ----- ${err}`);
       throw new ApplicationError("Unable to Rate the product", 500);

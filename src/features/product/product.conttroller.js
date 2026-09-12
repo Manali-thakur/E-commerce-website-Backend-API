@@ -66,7 +66,9 @@ export default class ProductController {
     try {
       console.log("Rate Product req.query:", req.query);
       const userId = req.userId;
-      const { productId, rating } = req.query;
+      console.log("userID from Rate controller", userId);
+      const { productId, rating } = req.body;
+      console.log("rate product", req.query);
 
       if (!productId || !rating) {
         return res.status(400).json({
@@ -79,6 +81,7 @@ export default class ProductController {
       return res
         .status(200)
         .json({ success: true, msg: "Product is rated successfully" });
+
     } catch (err) {
       // calling the application error middleware
       next(err);

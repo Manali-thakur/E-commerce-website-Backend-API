@@ -62,7 +62,7 @@ export class UserController {
         if (isPasswordValid) {
           // 1. token creation
           const token = jwt.sign(
-            { userID: user.id, email: user.email },
+            { userId: user._id, email: user.email },
             process.env.JWT_SECRET,
             { expiresIn: "1h" },
           );
