@@ -64,11 +64,11 @@ export default class ProductController {
     // http://localhost:3200/api/product/rate?userId=2&productId=1&rating=4
     // code
     try {
-      console.log("Rate Product req.query:", req.query);
+      console.log("Rate Product req.query:", req.body);
       const userId = req.userId;
       console.log("userID from Rate controller", userId);
       const { productId, rating } = req.body;
-      console.log("rate product", req.query);
+      console.log("rate product", req.body);
 
       if (!productId || !rating) {
         return res.status(400).json({
@@ -81,7 +81,6 @@ export default class ProductController {
       return res
         .status(200)
         .json({ success: true, msg: "Product is rated successfully" });
-
     } catch (err) {
       // calling the application error middleware
       next(err);
