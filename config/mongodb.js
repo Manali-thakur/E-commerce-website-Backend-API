@@ -9,6 +9,7 @@ export const connectToMongoDB = async () => {
       client = clientInstance;
       console.log("Connected to MongoDB");
       createCounter(client.db());
+      createIndexes(client.db());
     })
     .catch((err) => {
       console.error(err);
@@ -27,5 +28,21 @@ const createCounter = async (db) => {
     .findOne({ _id: "cartItemId" });
   if (!existingCounter) {
     db.collection("counters").insertOne({ _id: "cartItemId", value: 0 });
+  }
+};
+
+const createIndexes = async (db) => {
+  try {
+    //singleton field index
+    await db.collection("products").createIndex({ price: 1 });
+    // compount index if the Index
+    await db.collection("products").createIndex({ name: 1, category: -1 });
+    // Text indexes
+    await db.collection("products").createIndex({
+      description: "text",
+    });
+    console.log("Indexes are created");
+  } catch (err) {
+    throw new Error("Unable to create the Indexes in the mongod file!!--", err);
   }
 };
