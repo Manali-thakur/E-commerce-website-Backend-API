@@ -13,11 +13,23 @@ class CartRepository {
       const db = await getDB();
       const collection = db.collection(this.collection);
 
-      return await collection.insertOne({
-        productId: new ObjectId(productId),
-        userId: new ObjectId(userId),
-        quantity,
-      });
+      //For already input cart- updating the Cart quantity-
+      // find the document
+      // either insert or update
+      // insertion
+
+      return await collection.updateOne(
+        {//filter exp
+          productId: new ObjectId(productId),
+          userId: new ObjectId(userId),
+        },
+        {
+          $inc: {
+            quantity: quantity
+          }
+        },
+        { upsert: true },
+      );
     } catch (err) {
       console.log("Error during Adding new Cart---", err);
       throw new ApplicationError("Unable to product into the CART--", 500);
