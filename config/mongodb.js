@@ -8,6 +8,7 @@ export const connectToMongoDB = async () => {
     .then((clientInstance) => {
       client = clientInstance;
       console.log("Connected to MongoDB");
+      createCounter(client.db());
     })
     .catch((err) => {
       console.error(err);
@@ -18,4 +19,13 @@ export const connectToMongoDB = async () => {
 export const getDB = () => {
   // use for added db name but since we have mention it in the earlier url, we can just return the client.db() without specifying the db name
   return client.db();
+};
+
+const createCounter = async (db) => {
+  const existingCounter = await db
+    .collection("counters")
+    .findOne({ _id: "cartItemId" });
+  if (!existingCounter) {
+    db.collection("counters").insertOne({ _id: "cartItemId", value: 0 });
+  }
 };

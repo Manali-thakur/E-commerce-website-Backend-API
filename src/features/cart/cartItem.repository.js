@@ -1,10 +1,10 @@
-import { ObjectId } from "mongodb";
+import { ObjectId, ReturnDocument } from "mongodb";
 import { getDB } from "../../../config/mongodb.js";
 import { ApplicationError } from "../../error-handler/applicationError.js";
 
 class CartRepository {
   constructor() {
-    this.collection = "cart";
+    this.collection = "cartItems";
     // this.productsCollection = "products";
   }
 
@@ -12,21 +12,24 @@ class CartRepository {
     try {
       const db = await getDB();
       const collection = db.collection(this.collection);
-
+      // here it is initailized
+      const id = await this.getNextCounter(db);
       //For already input cart- updating the Cart quantity-
       // find the document
       // either insert or update
       // insertion
 
       return await collection.updateOne(
-        {//filter exp
+        {
+          //filter exp
           productId: new ObjectId(productId),
           userId: new ObjectId(userId),
         },
         {
+          $setOnInsert: { _id: id },
           $inc: {
-            quantity: quantity
-          }
+            quantity: quantity,
+          },
         },
         { upsert: true },
       );
@@ -79,6 +82,27 @@ class CartRepository {
       console.log("ERROR-- during deletion of the CART---", err);
       throw new ApplicationError("Something went wrong");
     }
+  }
+
+  // update the counter and return it back
+  async getNextCounter(db) {
+    const resultDocument = await db.collection("counters").findOneAndUpdate(
+      {
+        // finding the counter
+        _id: "cartItemId",
+      },
+      {
+        // incrementing the value
+        $inc: { value: 1 },
+      },
+      {
+        // return the updated document
+        returnDocument: "after",
+      },
+    );
+    console.log("counter = ", resultDocument);
+    return resultDocument.value;
+    // first is mongodb db value, second value is actual attribute
   }
 }
 
