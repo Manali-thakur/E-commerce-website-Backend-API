@@ -85,7 +85,9 @@ class ProductRepository {
         };
       }
       if (category) {
-        filterExpression.category = category;
+        filterExpression = {
+          $and: [{ category: caategory }, filterExpression],
+        };
       }
       return await collection.find(filterExpression).toArray();
     } catch (err) {
@@ -122,6 +124,26 @@ class ProductRepository {
     } catch (err) {
       console.log(`ERROR ----- ${err}`);
       throw new ApplicationError("Unable to Rate the product", 500);
+    }
+  }
+
+  async averageProductPricePerCategory(){
+    try{
+      const db = await getDB();
+      return await db.collection(this.collection).aggregate([
+        {
+          // stage- 1
+          $group:{
+            _id:"$category",
+            averagePrice:{$avg: "$price"}
+          }
+        }
+      ]).toArray();
+
+
+    }catch (err) {
+      console.log(`ERROR ----- ${err}`);
+      throw new ApplicationError("Unable to Average product rate per catogory.!!", 500);
     }
   }
 }

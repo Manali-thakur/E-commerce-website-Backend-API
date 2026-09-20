@@ -112,4 +112,20 @@ export default class ProductController {
       res.status(500).send("Unable to filter products");
     }
   }
+
+  // implementing using Aggragation pipeline
+  async avaeragePrice(req, res, next){
+
+    try{
+
+      const result = await this.productRepository.averageProductPricePerCategory();
+
+      res.status(200).send(result);
+
+    }catch(err){
+       console.log(err);
+       res.status(500).send("Unable to do average Price");
+    }
+
+  }
 }
