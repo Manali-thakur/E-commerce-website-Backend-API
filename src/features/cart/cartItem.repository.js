@@ -22,8 +22,8 @@ class CartRepository {
       return await collection.updateOne(
         {
           //filter exp
-          productId: new ObjectId(productId),
-          userId: new ObjectId(userId),
+          productID: new ObjectId(productId),
+          userID: new ObjectId(userId),
         },
         {
           $setOnInsert: { _id: id },
@@ -65,7 +65,7 @@ class CartRepository {
 
       const result = await collection.deleteOne({
         _id: new ObjectId(cartId),
-        userId: new ObjectId(userId),
+        userID: new ObjectId(userId),
       });
 
       console.log("DELETE RESULT:", result);
