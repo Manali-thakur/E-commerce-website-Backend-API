@@ -1,5 +1,7 @@
 import { ObjectId } from "mongodb";
 import { getDB } from "../../../config/mongodb.js";
+import OrderModel from "./order.model.js";
+import { ApplicationError } from "../../error-handler/applicationError.js";
 
 export default class OrderRepository {
   constructor() {
@@ -7,12 +9,53 @@ export default class OrderRepository {
   }
 
   async placeOrder(userId) {
-    // 1, get cartitems and calculate total amount
-    await this.getTotalAmount(userId);
-    // 2. create an order record
+    try {
+      const db = await getDB();
 
-    // 3. reduce the stock
-    // 4. clear the cart items.
+      // 1, get cartitems and calculate total amount
+      const items = await this.getTotalAmount(userId);
+
+      //total amount of all the cart items acc-accumulator
+      const finalTotalAmount = items.reduce(
+        (acc, item) => acc + item.totalAmount,
+        0,
+      );
+      console.log("Total amount of the cart = ", finalTotalAmount);
+      // 2. create an order record
+
+      const newOrder = new OrderModel(
+        new ObjectId(userId),
+        finalTotalAmount,
+        new Date(),
+      );
+      await db.collection(this.collection).insertOne(newOrder);
+
+      // 3. reduce the stock
+      for (let item of items) {
+        await db.collection("products").updateOne(
+          {
+            _id: item.productID,
+          },
+          {
+            $inc: { stock: -item.quantity },
+          },
+        );
+      }
+      throw new Error("something");
+
+      // 4. clear the cart items.
+      await db.collection("cartItems").deleteMany({
+        userID: new ObjectId(userId),
+      });
+
+      return;
+    } catch (err) {
+      // console.log(
+      //   "error during place order repository--------------------",
+      //   err,
+      // );
+      throw new ApplicationError("Something went wrong with the database", 500);
+    }
   }
 
   async getTotalAmount(userId) {
@@ -49,13 +92,6 @@ export default class OrderRepository {
       ])
       .toArray();
 
-    //5.total amount of all the cart items acc-accumulator
-    const finalTotalAmount = items.reduce(
-      (acc, item) => acc + item.totalAmount,
-      0,
-    );
-
-    console.log("Total amount of the cart = ", finalTotalAmount);
-    return finalTotalAmount;
+    return items;
   }
 }

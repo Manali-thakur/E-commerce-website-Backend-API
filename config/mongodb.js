@@ -27,7 +27,7 @@ const createCounter = async (db) => {
     .collection("counters")
     .findOne({ _id: "cartItemId" });
   if (!existingCounter) {
-    db.collection("counters").insertOne({ _id: "cartItemId", value: 0 });
+    await db.collection("counters").insertOne({ _id: "cartItemId", value: 0 });
   }
 };
 
@@ -46,3 +46,7 @@ const createIndexes = async (db) => {
     throw new Error("Unable to create the Indexes in the mongod file!!--", err);
   }
 };
+
+export const getClient = () => {
+  return client;
+}
