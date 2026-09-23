@@ -1,10 +1,14 @@
 import { MongoClient } from "mongodb";
+import dotenv from "dotenv";
+
+dotenv.config();
+const url = process.env.DB_URL;
 
 let client;
 // const url = process.env.DB_URL;
 // Replace with your MongoDB connection string
 export const connectToMongoDB = async () => {
-  await MongoClient.connect(process.env.DB_URL)
+  await MongoClient.connect(url)
     .then((clientInstance) => {
       client = clientInstance;
       console.log("Connected to MongoDB");
@@ -49,4 +53,4 @@ const createIndexes = async (db) => {
 
 export const getClient = () => {
   return client;
-}
+};
