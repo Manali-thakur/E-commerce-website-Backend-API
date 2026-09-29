@@ -86,7 +86,7 @@ class ProductRepository {
       }
       if (category) {
         filterExpression = {
-          $and: [{ category: caategory }, filterExpression],
+          $and: [{ category: category }, filterExpression],
         };
       }
       return await collection.find(filterExpression).toArray();
