@@ -9,11 +9,4 @@ export class UserModel {
     this.password = password;
     this.type = type;
   }
-
-  // removed signUp and signIn methods from the UserModel class as they are now handled by the UserRepository class
-
-
-  // static getAllUsers() {
-  //   return users;
-  // }
 }
