@@ -10,5 +10,6 @@ export const connectUsingMongoose = async () => {
     console.log("MongoDB using Mongoose is connected!");
   } catch (err) {
     console.log("Error---connectUsingMongoose----", err);
+    process.exit(1);
   }
 };
