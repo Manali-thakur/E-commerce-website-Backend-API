@@ -1,16 +1,18 @@
-import { userSchema } from "./user.schema.js";
 import mongoose from "mongoose";
+import { ApplicationError } from "../../error-handler/applicationError.js";
+import { userSchema } from "./user.schema.js";
 
 const UserModel = mongoose.model("users", userSchema);
 
 export default class UserRepositry {
   async signUp(newUser) {
     try {
-      const newUser = new UserModel(newUser);
-      await newUser.save();
-      return newUser;
+      const user = new UserModel(newUser);
+      await user.save();
+      return user;
     } catch (err) {
-      throw new ApplicationError("Failed to sign up user", 500, err.message);
+      // throw new ApplicationError("Failed to sign up user", 500, err.message);
+      console.log(err.name, "|", err.message);
     }
   }
 
@@ -25,7 +27,7 @@ export default class UserRepositry {
 
   async findByEmail(email) {
     try {
-      return await UserModel.findOne({ email });
+      return await UserModel.findOne({ email }).select("+password"); //tell mongoose to include the password field in the result
     } catch (err) {
       throw new ApplicationError("Failed to sign in user", 500, err.message);
     }

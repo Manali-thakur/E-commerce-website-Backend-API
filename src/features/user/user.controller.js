@@ -16,7 +16,7 @@ export class UserController {
 
       const hashedPassword = await bcrypt.hash(password, 12);
 
-      const user = new UserModel(null, name, email, hashedPassword, type);
+      const user = { name, email, password: hashedPassword, type };
 
       await this.userRepository.signUp(user); // calling the signUp method of the repository class to save the user in the database
 
@@ -27,23 +27,17 @@ export class UserController {
       res.status(201).json({
         status: "Success",
         msg: "User created Successfully",
-        ID: user.id,
         name: user.name,
         email: user.email,
         type: user.type,
       });
     } catch (err) {
+      console.log("error during signup-----", err);
       throw new ApplicationError("Failed to create user", 500, err.message);
-      // console.error(err);
-      // res.status(500).json({
-      //   status: "Error",
-      //   msg: "Failed to create user",
-      //   error: err.message,
-      // });
     }
   }
 
-  async signIn(req, res, next) {
+  async signIn(req, res) {
     try {
       // 1. Find the user by email
       const user = await this.userRepository.findByEmail(req.body.email);
