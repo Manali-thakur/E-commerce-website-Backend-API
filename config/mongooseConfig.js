@@ -15,3 +15,32 @@ export const connectUsingMongoose = async () => {
 };
 
 export const getDB = () => mongoose.connection.db;
+
+export const getClient= () => mongoose.connection.getClient();
+
+// Call this once, AFTER mongoose.connect() has finished
+export const initDB = async () => {
+  const db = getDB();
+  await createCounter(db);
+  await createIndexes(db);
+};
+
+const createCounter = async (db) => {
+  const existingCounter = await db
+    .collection("counters")
+    .findOne({ _id: "cartItemId" });
+  if (!existingCounter) {
+    await db.collection("counters").insertOne({ _id: "cartItemId", value: 0 });
+  }
+};
+
+const createIndexes = async (db) => {
+  try {
+    await db.collection("products").createIndex({ price: 1 });
+    await db.collection("products").createIndex({ name: 1, category: -1 });
+    await db.collection("products").createIndex({ description: "text" });
+    console.log("Indexes are created");
+  } catch (err) {
+    throw new Error("Unable to create the indexes", { cause: err });
+  }
+};
