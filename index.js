@@ -81,8 +81,11 @@ server.use((req, res) => {
 // error handler middleware
 server.use((err, req, res, next) => {
   console.log(err);
+  if (res.headersSent) {
+    return next(err);
+  }
   if (err instanceof ApplicationError) {
-    res.status(err.code).send(err.message);
+    return res.status(err.code).send(err.message);
   }
 
   // server error

@@ -1,5 +1,4 @@
 import ProductModel from "./product.model.js";
-// import {ApplicationError} from "../../error-handler/applicationError.js";
 import ProductRepository from "./product.repository.js";
 
 export default class ProductController {
@@ -114,18 +113,15 @@ export default class ProductController {
   }
 
   // implementing using Aggragation pipeline
-  async avaeragePrice(req, res, next){
-
-    try{
-
-      const result = await this.productRepository.averageProductPricePerCategory();
+  async avaeragePrice(req, res, next) {
+    try {
+      const result =
+        await this.productRepository.averageProductPricePerCategory();
 
       res.status(200).send(result);
-
-    }catch(err){
-       console.log(err);
-       res.status(500).send("Unable to do average Price");
+    } catch (err) {
+      console.log(err);
+      res.status(500).send("Unable to do average Price");
     }
-
   }
 }

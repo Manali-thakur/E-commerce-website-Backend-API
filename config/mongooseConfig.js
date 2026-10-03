@@ -13,3 +13,5 @@ export const connectUsingMongoose = async () => {
     process.exit(1);
   }
 };
+
+export const getDB = () => mongoose.connection.db;

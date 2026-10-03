@@ -32,4 +32,18 @@ export default class UserRepositry {
       throw new ApplicationError("Failed to sign in user", 500, err.message);
     }
   }
+
+  async resetPassword(userID, newPassword) {
+    try {
+      const user = await UserModel.findById(userID);
+      if (!user) {
+        throw new ApplicationError("User not found", 404);
+      }
+      user.password = newPassword;
+      await user.save();
+      return user;
+    } catch (err) {
+      throw new ApplicationError("Failed to reset password", 500, err.message);
+    }
+  }
 }

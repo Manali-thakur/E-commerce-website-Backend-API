@@ -1,4 +1,4 @@
-import { getDB } from "../../../config/mongodb.js";
+import { getDB } from "../../../config/mongooseConfig.js";
 import { ApplicationError } from "../../error-handler/applicationError.js";
 import { ObjectId } from "mongodb";
 
@@ -23,7 +23,11 @@ class ProductRepository {
       return newProduct;
     } catch (err) {
       console.log(err);
-      throw new ApplicationError("Unable to add the NEW Product", 500);
+      throw new ApplicationError(
+        "Unable to add the NEW Product",
+        500,
+        err.message,
+      );
     }
   }
 
@@ -42,7 +46,11 @@ class ProductRepository {
       return products;
     } catch (err) {
       console.log(`ERROR ----- ${err}`);
-      throw new ApplicationError("Unabale to get All Products", 500);
+      throw new ApplicationError(
+        "Unabale to get All Products",
+        500,
+        err.message,
+      );
     }
   }
 
@@ -61,7 +69,7 @@ class ProductRepository {
       return product;
     } catch (err) {
       console.log(`ERROR ----- ${err}`);
-      throw new ApplicationError("Unabale to get a Product", 500);
+      throw new ApplicationError("Unabale to get a Product", 500, err.message);
     }
   }
 
@@ -92,7 +100,11 @@ class ProductRepository {
       return await collection.find(filterExpression).toArray();
     } catch (err) {
       console.log(`ERROR ----- ${err}`);
-      throw new ApplicationError("Unable to filter the products", 500);
+      throw new ApplicationError(
+        "Unable to filter the products",
+        500,
+        err.message,
+      );
     }
   }
 
@@ -123,27 +135,36 @@ class ProductRepository {
       );
     } catch (err) {
       console.log(`ERROR ----- ${err}`);
-      throw new ApplicationError("Unable to Rate the product", 500);
+      throw new ApplicationError(
+        "Unable to Rate the product",
+        500,
+        err.message,
+      );
     }
   }
 
-  async averageProductPricePerCategory(){
-    try{
+  async averageProductPricePerCategory() {
+    try {
       const db = await getDB();
-      return await db.collection(this.collection).aggregate([
-        {
-          // stage- 1
-          $group:{
-            _id:"$category",
-            averagePrice:{$avg: "$price"}
-          }
-        }
-      ]).toArray();
-
-
-    }catch (err) {
+      return await db
+        .collection(this.collection)
+        .aggregate([
+          {
+            // stage- 1
+            $group: {
+              _id: "$category",
+              averagePrice: { $avg: "$price" },
+            },
+          },
+        ])
+        .toArray();
+    } catch (err) {
       console.log(`ERROR ----- ${err}`);
-      throw new ApplicationError("Unable to Average product rate per catogory.!!", 500);
+      throw new ApplicationError(
+        "Unable to Average product rate per catogory.!!",
+        500,
+        err.message,
+      );
     }
   }
 }

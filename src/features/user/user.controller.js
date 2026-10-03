@@ -78,4 +78,40 @@ export class UserController {
       console.error(err);
     }
   }
+
+  async resetPassword(req, res, next) {
+    try {
+      const { newPassword } = req.body;
+      const userID = req.userId;
+
+      if (!newPassword) {
+        return res
+          .status(400)
+          .json({ status: "failed", msg: "newPassword is required" });
+      }
+
+      if (!/^(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,12}$/.test(newPassword)) {
+        return res.status(400).json({
+          status: "failed",
+          msg: "Password should be 8-12 characters and have a special character.",
+        });
+      }
+
+      const hashedPassword = await bcrypt.hash(newPassword, 12);
+
+      const user = await this.userRepository.resetPassword(
+        userID,
+        hashedPassword,
+      );
+      res.status(200).json({
+        status: "success",
+        msg: "Password reset successful",
+        name: user.name,
+        email: user.email,
+        type: user.type,
+      });
+    } catch (err) {
+      return next(err);
+    }
+  }
 }
